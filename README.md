@@ -17,17 +17,17 @@ API desenvolvida com **Node.js** que fornece dados de cotação e é consumida p
 
 1. Clone o repositório:
 
-git clone https://github.com/SEU_USUARIO/cotacao-backend.git
+   git clone https://github.com/SEU_USUARIO/cotacao-backend.git
 
 2. Instale as dependências:
 
-npm install
+   npm install
 
 3. Configure as variáveis de ambiente no .env
 
 4. Inicie a API:
 
-npm start
+   npm start
 
-Certifique-se de que o servidor estará rodando na porta esperada pelo frontend (ex: http://localhost:3000).
+   Obs: Certifique-se de que o servidor estará rodando na porta esperada pelo frontend (ex: http://localhost:3000).
 
