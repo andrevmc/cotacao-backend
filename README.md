@@ -1,6 +1,6 @@
 # Cotação Backend
 
-Este projeto é o **backend** da aplicação de cotação da B3.
+Este projeto é o **backend** da aplicação de cotação da B3. Ele utiliza uma consulta a api gratuita https://www.alphavantage.co, que permite um máximo de 25 requests/dia.
 
 ## 🚀 Sobre
 
