@@ -17,7 +17,7 @@ API desenvolvida com **Node.js** que fornece dados de cotação e é consumida p
 
 1. Clone o repositório:
 
-   git clone https://github.com/SEU_USUARIO/cotacao-backend.git
+   git clone https://github.com/andrevmc/cotacao-backend.git
 
 2. Instale as dependências:
 
