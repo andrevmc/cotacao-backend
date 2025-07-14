@@ -23,9 +23,7 @@ API desenvolvida com **Node.js** que fornece dados de cotação e é consumida p
 
    npm install
 
-3. Configure as variáveis de ambiente no .env
-
-4. Inicie a API:
+3. Inicie a API:
 
    npm start
 
