@@ -4,7 +4,7 @@ const cache = new NodeCache({ stdTTL: 3600 });
 
 // const API_KEY = 'P0LJMHCPQOA48XMS';
 const API_KEY = 'FW3N83MKIF85S5MM';
-const BASE_URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY';
+const BASE_URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full';
 
 async function fetchTimeSeries(ativo) {
   const url = `${BASE_URL}&symbol=${ativo}.SA&apikey=${API_KEY}`;
