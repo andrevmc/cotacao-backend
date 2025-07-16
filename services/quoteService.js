@@ -2,27 +2,32 @@ const axios = require('axios');
 const NodeCache = require('node-cache');
 const cache = new NodeCache({ stdTTL: 3600 });
 
-// const API_KEY = 'P0LJMHCPQOA48XMS';
-const API_KEY = 'FW3N83MKIF85S5MM';
-const BASE_URL = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&outputsize=full';
+//https://api.twelvedata.com/time_series?symbol=PETR4&interval=1day&apikey=7b5cfee9e8f84782ab62ccdc07ca75d2
+//https://api.twelvedata.com/time_series?symbol=VALE3&interval=1day&apikey=7b5cfee9e8f84782ab62ccdc07ca75d2
+//https://api.twelvedata.com/time_series?symbol=ITUB4&interval=1day&apikey=7b5cfee9e8f84782ab62ccdc07ca75d2
+//https://api.twelvedata.com/time_series?symbol=BBDC4&interval=1day&apikey=7b5cfee9e8f84782ab62ccdc07ca75d2
+//https://api.twelvedata.com/time_series?symbol=BBAS3&interval=1day&apikey=7b5cfee9e8f84782ab62ccdc07ca75d2
 
-async function fetchTimeSeries(ativo) {
-  const url = `${BASE_URL}&symbol=${ativo}.SA&apikey=${API_KEY}`;
+const API_KEY = '7b5cfee9e8f84782ab62ccdc07ca75d2';
+const BASE_URL = 'https://api.twelvedata.com/time_series';
+
+async function fetchTimeSeries(ativo, dataInicio, dataFim) {
+  const url = `${BASE_URL}?symbol=${ativo}&interval=1day&start_date=${dataInicio}&end_date=${dataFim}&apikey=${API_KEY}`;
+
   const resp = await axios.get(url);
   console.log(`🔍 Retorno bruto de ${ativo}:`, resp.data);
+
   const data = resp.data;
-  
-  if (data.Note) {
-    throw new Error(`API limit hit: ${data.Note}`);
-  }
-  if (data['Error Message']) {
-    throw new Error(`Símbolo inválido: ${ativo}`);
+
+  if (data.status === 'error') {
+    throw new Error(data.message || `Erro com o ativo ${ativo}`);
   }
 
-  const series = data['Time Series (Daily)'];
-  if (!series || typeof series !== 'object') {
+  const series = data.values;
+  if (!series || !Array.isArray(series)) {
     throw new Error(`Dados não encontrados para ${ativo}`);
   }
+
   return series;
 }
 
@@ -37,14 +42,14 @@ async function getQuotes(ativos, dataInicio, dataFim) {
     }
 
     try {
-      const series = await fetchTimeSeries(ativo);
-      const filtered = Object.entries(series)
-        .filter(([date]) => date >= dataInicio && date <= dataFim)
-        .map(([date, info]) => ({
-          date,
-          close: parseFloat(info['4. close'])
+      const series = await fetchTimeSeries(ativo, dataInicio, dataFim);
+
+      const filtered = series
+        .map(item => ({
+          date: item.datetime,
+          close: parseFloat(item.close)
         }))
-        .reverse();
+        .reverse(); // opcional, depende da ordem
 
       cache.set(key, filtered);
       result[ativo] = filtered;
